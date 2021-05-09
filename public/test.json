@@ -1,0 +1,43 @@
+[
+  {
+    "id": "622f65c7-76f0-4cd1-ace5-f9d078d7aaae",
+    "data": {
+      "label": "Input Node"
+    },
+    "position": {
+      "x": 250,
+      "y": 25
+    },
+    "className": "sync-point"
+  },
+  {
+    "id": "ebfc3757-d39d-443d-b29f-e535d218f376",
+    "data": {
+      "id": null,
+      "type": "M",
+      "label": "Another Node",
+      "canMerge": false,
+      "taskId": "TT_SrProjectionSurvey",
+      "workplaceId": "WP_Projection"
+    },
+    "position": {
+      "x": 100,
+      "y": 125
+    }
+  },
+  {
+    "id": "ebfc3757-d39d-443d-b29f-e535d218f37h",
+    "data": {
+      "id": null,
+      "type": "M",
+      "label": "Another Node 123",
+      "canMerge": false,
+      "taskId": "TT_SrProjectionSurvey",
+      "workplaceId": "WP_Projection"
+    },
+    "position": {
+      "x": 150,
+      "y": 125
+    }
+  }
+]
