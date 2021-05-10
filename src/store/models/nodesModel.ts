@@ -82,6 +82,7 @@ export const nodesModel: INodesType = {
             const stateNodes: FlowElement[] = helpers.getState().nodes;
 
             // Diff StateNodes
+            // TODO: rewrite to export method
             const diffStateNodes = stateNodes.filter((node: FlowElement) => {
                 return !data.map((node: FlowElement) => {
                     return JSON.stringify(node);
