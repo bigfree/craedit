@@ -18,9 +18,14 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.fetchNodes('test');
 	}
 
+	const onSyncNode = async () => {
+		nodesActions.syncNodes('test');
+	}
+
 	return (
 		<>
 			<button onClick={onFetchNodes}>Load</button>
+			<button onClick={onSyncNode}>Sync</button>
 			<ReactFlow elements={nodesStates.nodes}
 			           onElementsRemove={onNodeRemove}
 			           deleteKeyCode={46}
