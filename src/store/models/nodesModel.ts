@@ -75,6 +75,18 @@ export const nodesModel: INodesType = {
         }
     }),
 
+    // Save nodes on server
+    saveNodes: thunk(async (actions: Actions<INodesType>, payload: string, helpers: Helpers<INodesType, any, any>) => {
+        try {
+            const stateNodes: FlowElement[] = helpers.getState().nodes;
+            const results = await axios.post(`http://localhost:3000/${payload}.json`, stateNodes);
+
+            console.log(results);
+        } catch (error) {
+            actions.setFetchError(error.message);
+        }
+    }),
+
     // Synchronize nodes between state.nodes and server nodes
     syncNodes: thunk(async (actions: Actions<INodesType>, payload: string, helpers: Helpers<INodesType, any, any>) => {
         try {

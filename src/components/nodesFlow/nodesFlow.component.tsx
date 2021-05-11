@@ -22,10 +22,15 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.syncNodes('test');
 	}
 
+	const onSaveNode = async () => {
+		nodesActions.saveNodes('test');
+	}
+
 	return (
 		<>
 			<button onClick={onFetchNodes}>Load</button>
 			<button onClick={onSyncNode}>Sync</button>
+			<button onClick={onSaveNode}>Save</button>
 			<ReactFlow elements={nodesStates.nodes}
 			           onElementsRemove={onNodeRemove}
 			           deleteKeyCode={46}

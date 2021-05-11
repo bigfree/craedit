@@ -17,5 +17,6 @@ export interface INodesType {
 	replaceNodes: Action<INodesType, FlowElement[]>,
 	setFetchError: Action<INodesType, string | null>,
 	fetchNodes: Thunk<INodesType, string>,
+	saveNodes: Thunk<INodesType, string, INodesType>,
 	syncNodes: Thunk<INodesType, string, INodesType>,
 }
