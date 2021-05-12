@@ -1,6 +1,6 @@
-import { Box, makeStyles, Theme } from "@material-ui/core";
+import { Box, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
 import { Actions, State } from "easy-peasy";
-import { FC } from "react";
+import React, { FC, MouseEvent, SyntheticEvent, useState } from "react";
 import ReactFlow, { addEdge, Background, BackgroundVariant, Controls, FlowElement } from "react-flow-renderer";
 import { Connection, Edge } from "react-flow-renderer/dist/types";
 import { useStoreAction, useStoreState } from "../../store/hooks";
@@ -26,6 +26,9 @@ export const NodesFlow: FC = (): JSX.Element => {
 	const nodesStates = useStoreState((state: State<IStoreType>) => state.nodes);
 	const nodesActions = useStoreAction((actions: Actions<IStoreType>) => actions.nodes);
 
+	const [anchorEl, setAnchorEl] = useState<null | Element>(null);
+	const open = Boolean(anchorEl);
+
 	/**
 	 * Remove node from state.node
 	 * @param {FlowElement[]} node
@@ -44,6 +47,12 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.addConnection(nodeElements);
 	}
 
+	const onNodeContextMenu = (event: MouseEvent, node: FlowElement) => {
+		event.preventDefault();
+		setAnchorEl(event.currentTarget);
+		console.log(event, node);
+	}
+
 	const onFetchNodes = async () => {
 		nodesActions.fetchNodes('test');
 	}
@@ -56,6 +65,10 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.saveNodes('test');
 	}
 
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	return (
 		<Box className={classes.root}>
 			<Box className={classes.buttons}>
@@ -66,6 +79,7 @@ export const NodesFlow: FC = (): JSX.Element => {
 			<ReactFlow elements={nodesStates.nodes}
 			           onElementsRemove={onNodeRemove}
 			           onConnect={onNodeConnect}
+			           onNodeContextMenu={onNodeContextMenu}
 			           deleteKeyCode={46}
 			           nodeTypes={nodeTypes}
 			           selectNodesOnDrag={false}
@@ -77,6 +91,20 @@ export const NodesFlow: FC = (): JSX.Element => {
 				/>
 				<Controls/>
 			</ReactFlow>
+
+
+			{/*TODO: create element*/}
+			<Menu
+				id="fade-menu"
+				anchorEl={anchorEl}
+				keepMounted
+				open={open}
+				onClose={handleClose}
+			>
+				<MenuItem onClick={handleClose}>Profile</MenuItem>
+				<MenuItem onClick={handleClose}>My account</MenuItem>
+				<MenuItem onClick={handleClose}>Logout</MenuItem>
+			</Menu>
 		</Box>
 	)
 }
