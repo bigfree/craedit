@@ -1,21 +1,22 @@
 [
   {
     "id": "622f65c7-76f0-4cd1-ace5-f9d078d7aaae",
+    "type": "syncPoint",
     "data": {
-      "label": "Input Node"
+      "label": "SyncPoint"
     },
     "position": {
       "x": 250,
       "y": 25
-    },
-    "className": "sync-point"
+    }
   },
   {
     "id": "ebfc3757-d39d-443d-b29f-e535d218f376",
+    "type": "task",
     "data": {
       "id": null,
       "type": "M",
-      "label": "Another Node",
+      "label": "Task",
       "canMerge": false,
       "taskId": "TT_SrProjectionSurvey",
       "workplaceId": "WP_Projection"
@@ -27,10 +28,11 @@
   },
   {
     "id": "ebfc3757-d39d-443d-b29f-e535d218f37h",
+    "type": "condition",
     "data": {
       "id": null,
       "type": "M",
-      "label": "Another Node 123",
+      "label": "Condition",
       "canMerge": false,
       "taskId": "TT_SrProjectionSurvey",
       "workplaceId": "WP_Projection"
