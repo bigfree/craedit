@@ -8,9 +8,7 @@ import { storeModel } from './store/models/storeModel';
 
 ReactDOM.render(
 	<StoreProvider store={storeModel}>
-		<React.StrictMode>
-			<App/>
-		</React.StrictMode>
+		<App/>
 	</StoreProvider>,
 	document.getElementById('root')
 )

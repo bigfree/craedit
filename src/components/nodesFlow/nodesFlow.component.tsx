@@ -1,10 +1,11 @@
-import { Box, makeStyles, Menu, MenuItem, Theme } from "@material-ui/core";
+import { Box, makeStyles, Theme } from "@material-ui/core";
 import { Actions, State } from "easy-peasy";
-import React, { FC, MouseEvent, SyntheticEvent, useState } from "react";
+import React, { FC, MouseEvent } from "react";
 import ReactFlow, { addEdge, Background, BackgroundVariant, Controls, FlowElement } from "react-flow-renderer";
 import { Connection, Edge } from "react-flow-renderer/dist/types";
 import { useStoreAction, useStoreState } from "../../store/hooks";
 import { IStoreType } from "../../store/types/storeType";
+import NodeDialog from "../nodeDialog/nodeDialog.component";
 import { nodeTypes } from "../nodeTypes/nodeTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -20,14 +21,21 @@ const useStyles = makeStyles((theme: Theme) => ({
 	}
 }));
 
+type OpenNodeDialogTypes = {
+	isOpen: boolean,
+	node: null | FlowElement
+}
+
 export const NodesFlow: FC = (): JSX.Element => {
 	const classes = useStyles();
 
 	const nodesStates = useStoreState((state: State<IStoreType>) => state.nodes);
 	const nodesActions = useStoreAction((actions: Actions<IStoreType>) => actions.nodes);
 
-	const [anchorEl, setAnchorEl] = useState<null | Element>(null);
-	const open = Boolean(anchorEl);
+	const [openNodeDialog, setOpenNodeDialog] = React.useState<OpenNodeDialogTypes>({
+		isOpen: false,
+		node: null,
+	});
 
 	/**
 	 * Remove node from state.node
@@ -47,10 +55,11 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.addConnection(nodeElements);
 	}
 
-	const onNodeContextMenu = (event: MouseEvent, node: FlowElement) => {
-		event.preventDefault();
-		setAnchorEl(event.currentTarget);
-		console.log(event, node);
+	const onNodeMenu = (event: MouseEvent, node: FlowElement) => {
+		setOpenNodeDialog({
+			isOpen: true,
+			node: node
+		});
 	}
 
 	const onFetchNodes = async () => {
@@ -65,8 +74,13 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.saveNodes('test');
 	}
 
-	const handleClose = () => {
-		setAnchorEl(null);
+	const handleClose = (action: string) => {
+		setOpenNodeDialog({
+			isOpen: false,
+			node: null
+		});
+
+		console.log(action);
 	};
 
 	return (
@@ -79,7 +93,7 @@ export const NodesFlow: FC = (): JSX.Element => {
 			<ReactFlow elements={nodesStates.nodes}
 			           onElementsRemove={onNodeRemove}
 			           onConnect={onNodeConnect}
-			           onNodeContextMenu={onNodeContextMenu}
+			           onElementClick={onNodeMenu}
 			           deleteKeyCode={46}
 			           nodeTypes={nodeTypes}
 			           selectNodesOnDrag={false}
@@ -91,20 +105,7 @@ export const NodesFlow: FC = (): JSX.Element => {
 				/>
 				<Controls/>
 			</ReactFlow>
-
-
-			{/*TODO: create element*/}
-			<Menu
-				id="fade-menu"
-				anchorEl={anchorEl}
-				keepMounted
-				open={open}
-				onClose={handleClose}
-			>
-				<MenuItem onClick={handleClose}>Profile</MenuItem>
-				<MenuItem onClick={handleClose}>My account</MenuItem>
-				<MenuItem onClick={handleClose}>Logout</MenuItem>
-			</Menu>
+			<NodeDialog open={openNodeDialog.isOpen} onClose={handleClose} node={openNodeDialog.node}/>
 		</Box>
 	)
 }
