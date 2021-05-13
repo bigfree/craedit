@@ -4,21 +4,21 @@ import { FlowElement } from "react-flow-renderer";
 /**
  * Nodes interface
  */
-export interface INodesType {
-	nodes: FlowElement[],
-	fetchError: string | null,
-	addNode: Action<INodesType, FlowElement>,
-	addNodes: Action<INodesType, FlowElement[]>,
-	updateNode: Action<INodesType, FlowElement>,
-	updateNodes?: Action<INodesType, FlowElement[]>,
-	findNode: Action<INodesType, FlowElement>,
-	removeNode: Action<INodesType, FlowElement>,
-	removeNodes?: Action<INodesType, FlowElement[]>,
-	replaceNodes: Action<INodesType, FlowElement[]>,
-	cloneNode: Action<INodesType, FlowElement | null>,
-	setFetchError: Action<INodesType, string | null>,
-	addConnection: Action<INodesType, FlowElement[]>,
-	fetchNodes: Thunk<INodesType, string>,
-	saveNodes: Thunk<INodesType, string, INodesType>,
-	syncNodes: Thunk<INodesType, string, INodesType>,
+export interface NodesStoreType {
+	nodes: FlowElement[];
+	error: string | null;
+	addNode: Action<NodesStoreType, FlowElement>;
+	addNodes: Action<NodesStoreType, FlowElement[]>;
+	updateNode: Action<NodesStoreType, FlowElement>;
+	updateNodes?: Action<NodesStoreType, FlowElement[]>;
+	findNode: Action<NodesStoreType, FlowElement>;
+	removeNode: Action<NodesStoreType, FlowElement>;
+	removeNodes?: Action<NodesStoreType, FlowElement[]>;
+	replaceNodes: Action<NodesStoreType, FlowElement[]>;
+	setError: Action<NodesStoreType, string | null>;
+	addConnection: Action<NodesStoreType, FlowElement[]>;
+	cloneNode: Thunk<NodesStoreType, FlowElement | null>;
+	fetchNodes: Thunk<NodesStoreType, string>;
+	saveNodes: Thunk<NodesStoreType, string, NodesStoreType>;
+	syncNodes: Thunk<NodesStoreType, string, NodesStoreType>;
 }

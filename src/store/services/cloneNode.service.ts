@@ -1,44 +1,46 @@
-import {Node} from "react-flow-renderer";
-import {v4 as uuidv4} from 'uuid';
-import {XYPosition} from "react-flow-renderer/dist/types";
+import { XYPosition } from "react-flow-renderer/dist/types";
+import { v4 as uuidv4 } from 'uuid';
+import { WFNode } from "../../types/node";
 
-export default function cloneNode(node: Node) {
-    console.log(node);
-    const clonedNode: Node = {
-        id: uuidv4(),
-        data: node.data,
-        position: computePosition(node.position),
-        type: node.type
-    };
-
-    clonedNode.data.label = renameNode(clonedNode.data.label);
-
-    return clonedNode;
+/**
+ * Clone select node to new node
+ * @param {WFNode} node
+ * @returns {WFNode}
+ */
+export default function cloneNode(node: WFNode): WFNode {
+	return {
+		id: uuidv4(),
+		data: { ...node.data, label: renameNode(node.data.label) },
+		position: computePosition(node.position),
+		type: node.type
+	};
 }
 
 /**
  * Compute cloned node position
  * @param positions
  */
-const computePosition = (positions: XYPosition) => {
-    positions.x = positions.x - 100;
-    positions.y = positions.y - 100;
+const computePosition = (positions: XYPosition): XYPosition => {
+	const clonedPosition: XYPosition = { x: 0, y: 0 };
+	clonedPosition.x = positions.x;
+	clonedPosition.y = positions.y + 55;
 
-    return positions;
+	return clonedPosition;
 }
 
 /**
  * Add node name cloned
  * @param name
  */
-const renameNode = (name: string) => {
-    const isCloned = name.includes('cloned');
+const renameNode = (name: string): string => {
+	if (!name) {
+		return name;
+	}
 
-    if (isCloned) {
-        name = `${name}1`;
-    } else {
-        name = `${name} cloned`;
-    }
+	const isCloned: boolean = name.endsWith('cloned');
+	if (!isCloned) {
+		name = `${name} cloned`;
+	}
 
-    return name;
+	return name;
 }

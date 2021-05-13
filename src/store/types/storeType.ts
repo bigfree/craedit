@@ -1,5 +1,5 @@
-import { INodesType } from "./nodesType";
+import { NodesStoreType } from "./nodesType";
 
 export interface IStoreType {
-	nodes: INodesType,
+	nodes: NodesStoreType,
 }

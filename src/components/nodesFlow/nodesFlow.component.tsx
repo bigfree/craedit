@@ -6,8 +6,8 @@ import { Connection, Edge } from "react-flow-renderer/dist/types";
 import { useStoreAction, useStoreState } from "../../store/hooks";
 import { IStoreType } from "../../store/types/storeType";
 import NodeDialog from "../nodeDialog/nodeDialog.component";
+import { NodeAction } from "../nodeDialog/nodeDialogTypes";
 import { nodeTypes } from "../nodeTypes/nodeTypes";
-import {NodeAction} from "../nodeDialog/nodeDialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	}
 }));
 
-type OpenNodeDialogTypes = {
+type OpenNodeDialog = {
 	isOpen: boolean,
 	node: null | FlowElement
 }
@@ -33,19 +33,10 @@ export const NodesFlow: FC = (): JSX.Element => {
 	const nodesStates = useStoreState((state: State<IStoreType>) => state.nodes);
 	const nodesActions = useStoreAction((actions: Actions<IStoreType>) => actions.nodes);
 
-	const [openNodeDialog, setOpenNodeDialog] = React.useState<OpenNodeDialogTypes>({
+	const [openNodeDialog, setOpenNodeDialog] = React.useState<OpenNodeDialog>({
 		isOpen: false,
 		node: null,
 	});
-
-	/**
-	 * Remove node from state.node
-	 * @param {FlowElement[]} node
-	 */
-	const onNodeRemove = (node: FlowElement[]) => {
-		const nodeElement: FlowElement = node[0];
-		nodesActions.removeNode(nodeElement);
-	};
 
 	/**
 	 * Nodes connect event
@@ -56,6 +47,11 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.addConnection(nodeElements);
 	}
 
+	/**
+	 * Open dialog menu onClick node
+	 * @param {React.MouseEvent} event
+	 * @param {FlowElement} node
+	 */
 	const onNodeMenu = (event: MouseEvent, node: FlowElement) => {
 		setOpenNodeDialog({
 			isOpen: true,
@@ -75,19 +71,30 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.saveNodes('test');
 	}
 
+	/**
+	 * Close node dialog menu event
+	 * @param {string} action
+	 * @param {FlowElement | null} node
+	 * @returns {boolean}
+	 */
 	const handleClose = (action: string, node: FlowElement | null) => {
 		setOpenNodeDialog({
 			isOpen: false,
 			node: null
 		});
 
+		if (null === node) {
+			return false;
+		}
+
 		switch (action) {
 			case NodeAction.Clone:
 				nodesActions.cloneNode(node);
 				break;
+			case NodeAction.Delete:
+				nodesActions.removeNode(node);
+				break;
 		}
-
-		console.log(action);
 	};
 
 	return (
@@ -98,13 +105,13 @@ export const NodesFlow: FC = (): JSX.Element => {
 				<button onClick={onSaveNode}>Save</button>
 			</Box>
 			<ReactFlow elements={nodesStates.nodes}
-			           onElementsRemove={onNodeRemove}
 			           onConnect={onNodeConnect}
 			           onElementClick={onNodeMenu}
 			           deleteKeyCode={46}
 			           nodeTypes={nodeTypes}
 			           selectNodesOnDrag={false}
 			           snapToGrid={true}
+			           elementsSelectable={false}
 			>
 				<Background
 					variant={BackgroundVariant.Dots}

@@ -3,7 +3,9 @@
     "id": "622f65c7-76f0-4cd1-ace5-f9d078d7aaae",
     "type": "syncPoint",
     "data": {
-      "label": "SyncPoint"
+      "id": null,
+      "label": "SyncPoint",
+      "type": "M"
     },
     "position": {
       "x": 250,

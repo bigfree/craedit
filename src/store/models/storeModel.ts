@@ -4,4 +4,7 @@ import { nodesModel } from "./nodesModel";
 
 export const storeModel = createStore<IStoreType>({
 	nodes: nodesModel,
+}, {
+	devTools: true,
+	name: 'craedit store',
 });
