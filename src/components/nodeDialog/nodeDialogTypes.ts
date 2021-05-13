@@ -12,7 +12,7 @@ export type TNodeDialogProps = {
 	children?: ReactNode;
 	open: boolean;
 	node: null | FlowElement;
-	onClose: (type: string) => void;
+	onClose: (type: string, node: FlowElement | null) => void;
 }
 
 export type TListItems = {

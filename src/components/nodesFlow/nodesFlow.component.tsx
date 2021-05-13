@@ -7,6 +7,7 @@ import { useStoreAction, useStoreState } from "../../store/hooks";
 import { IStoreType } from "../../store/types/storeType";
 import NodeDialog from "../nodeDialog/nodeDialog.component";
 import { nodeTypes } from "../nodeTypes/nodeTypes";
+import {NodeAction} from "../nodeDialog/nodeDialogTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -74,11 +75,17 @@ export const NodesFlow: FC = (): JSX.Element => {
 		nodesActions.saveNodes('test');
 	}
 
-	const handleClose = (action: string) => {
+	const handleClose = (action: string, node: FlowElement | null) => {
 		setOpenNodeDialog({
 			isOpen: false,
 			node: null
 		});
+
+		switch (action) {
+			case NodeAction.Clone:
+				nodesActions.cloneNode(node);
+				break;
+		}
 
 		console.log(action);
 	};

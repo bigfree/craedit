@@ -14,6 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import { FC } from "react";
 import { NodeAction, TListItems, TNodeDialogProps } from "./nodeDialogTypes";
+import {FlowElement} from "react-flow-renderer";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	list: {
@@ -60,7 +61,7 @@ const NodeDialog: FC<TNodeDialogProps> = (props: TNodeDialogProps): JSX.Element 
 	 * Close dialog
 	 */
 	const handleClose = () => {
-		onClose('');
+		onClose('', node);
 	};
 
 	/**
@@ -68,12 +69,12 @@ const NodeDialog: FC<TNodeDialogProps> = (props: TNodeDialogProps): JSX.Element 
 	 * @param {string} value
 	 */
 	const handleListItemClick = (value: string) => {
-		onClose(value);
+		onClose(value, node);
 	};
 
 	return (
 		<Dialog onClose={handleClose} open={open} fullWidth={false}>
-			<DialogTitle className={classes.dialogTitle}>{node?.data.label}</DialogTitle>
+			<DialogTitle className={classes.dialogTitle}>{node?.data.label ?? ''}</DialogTitle>
 			<List className={classes.list}>
 				{listItems.map((item: TListItems) => (
 					<ListItem button onClick={() => handleListItemClick(item.action)} key={item.name}>

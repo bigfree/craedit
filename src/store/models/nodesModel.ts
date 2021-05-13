@@ -1,7 +1,8 @@
 import axios from "axios";
 import { action, Actions, Helpers, State, thunk } from "easy-peasy";
-import { FlowElement } from "react-flow-renderer";
+import {FlowElement, Node} from "react-flow-renderer";
 import { INodesType } from "../types/nodesType";
+import cloneNode from "../services/cloneNode.service";
 
 export const nodesModel: INodesType = {
 	nodes: [],
@@ -58,6 +59,12 @@ export const nodesModel: INodesType = {
 	// Replace all nodes in state.nodes
 	replaceNodes: action((state: State<INodesType>, payload: FlowElement[]) => {
 		state.nodes = payload;
+	}),
+
+	// Clone node and add to state.nodes
+	cloneNode: action((state: State<INodesType>, payload: Node) => {
+		const clonedNode = cloneNode(payload);
+		console.log(clonedNode);
 	}),
 
 	// Set if fetchNodes catch error
