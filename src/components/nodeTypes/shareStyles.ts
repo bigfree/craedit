@@ -15,6 +15,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
 		backgroundColor: props.nodeBackground,
 		boxShadow: props.nodeBoxShadow,
 		color: '#000',
+		'&:hover': {
+			boxShadow: '0 0 7px 0 rgba(26, 25, 43, .3)',
+		}
 	}),
 	handle: (props: ClassesProps) => ({
 		width: 9,
