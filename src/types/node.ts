@@ -1,4 +1,4 @@
-import { Node } from "react-flow-renderer";
+import { Edge, Node } from "react-flow-renderer/dist/types";
 
 export enum WFNodeType {
 	SYNCPOINT = 'syncPoint',
@@ -21,4 +21,4 @@ export type WFNodeData = {
 	workplaceId?: string | null;
 }
 
-export type WFNode = Omit<Node, "data" | "type"> & { data: WFNodeData } & { type: WFNodeType };
+export type WFNode = Omit<Node, "data" | "type"> & Edge & { data: WFNodeData } & { type: WFNodeType };

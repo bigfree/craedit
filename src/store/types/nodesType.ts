@@ -6,7 +6,7 @@ import { FlowElement } from "react-flow-renderer";
  */
 export interface NodesStoreType {
 	nodes: FlowElement[];
-	error: string | null;
+	error: string | null | unknown;
 	addNode: Action<NodesStoreType, FlowElement>;
 	addNodes: Action<NodesStoreType, FlowElement[]>;
 	updateNode: Action<NodesStoreType, FlowElement>;
@@ -15,7 +15,7 @@ export interface NodesStoreType {
 	removeNode: Action<NodesStoreType, FlowElement>;
 	removeNodes?: Action<NodesStoreType, FlowElement[]>;
 	replaceNodes: Action<NodesStoreType, FlowElement[]>;
-	setError: Action<NodesStoreType, string | null>;
+	setError: Action<NodesStoreType, string | null | unknown>;
 	addConnection: Action<NodesStoreType, FlowElement[]>;
 	cloneNode: Thunk<NodesStoreType, FlowElement | null>;
 	fetchNodes: Thunk<NodesStoreType, string>;

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { action, Actions, Helpers, State, thunk } from "easy-peasy";
 import { FlowElement } from "react-flow-renderer";
 import { Edge } from "react-flow-renderer/dist/types";
@@ -65,7 +65,7 @@ export const nodesModel: NodesStoreType = {
 	}),
 
 	// Set if fetchNodes catch error
-	setError: action((state: State<NodesStoreType>, payload: string | null) => {
+	setError: action((state: State<NodesStoreType>, payload: string | null | unknown) => {
 		state.error = payload;
 	}),
 
@@ -82,10 +82,10 @@ export const nodesModel: NodesStoreType = {
 	// Fetch nodes from server by WorkFlow ID
 	fetchNodes: thunk(async (actions: Actions<NodesStoreType>, payload: string) => {
 		try {
-			const { data } = await axios.get(`http://localhost:3000/${payload}.json`);
+			const { data }: AxiosResponse<WFNode[]> = await axios.get(`http://localhost:3000/${payload}.json`);
 			actions.replaceNodes(data);
 		} catch (error) {
-			actions.setError(error.message);
+			actions.setError(error);
 		}
 	}),
 
@@ -97,7 +97,7 @@ export const nodesModel: NodesStoreType = {
 
 			console.log(results);
 		} catch (error) {
-			actions.setError(error.message);
+			actions.setError(error);
 		}
 	}),
 
@@ -130,7 +130,7 @@ export const nodesModel: NodesStoreType = {
 				actions.replaceNodes(data);
 			}
 		} catch (error) {
-			actions.setError(error.message);
+			actions.setError(error);
 		}
 	}),
 };

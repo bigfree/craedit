@@ -6,5 +6,5 @@ export const storeModel = createStore<IStoreType>({
 	nodes: nodesModel,
 }, {
 	devTools: true,
-	name: 'craedit store',
+	name: 'CRAEdit store',
 });
